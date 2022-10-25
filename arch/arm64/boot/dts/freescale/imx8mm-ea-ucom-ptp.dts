@@ -1,0 +1,331 @@
+/*
+ * Copyright 2020 Embedded Artists AB
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/dts-v1/;
+
+#include "imx8mm-ea-ucom.dtsi"
+
+/ {
+	model = "Embedded Artists i.MX8M Mini uCOM Kit";
+	compatible = "fsl,imx8mmea-ucom", "fsl,imx8mm";
+
+	chosen {
+		bootargs = "console=ttymxc1,115200 earlycon=ec_imx6q,0x30890000,115200";
+		stdout-path = &uart2;
+	};
+
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		reg_usbotg1_vbus: regulator-usbotg1 {
+			compatible = "regulator-fixed";
+			regulator-name = "usbotg_vbus";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			gpio = <&gpio1 12 GPIO_ACTIVE_HIGH>;
+			off-on-delay = <20000>;
+			enable-active-high;
+		};
+		reg_usbotg2_vbus: regulator-usbotg2 {
+			compatible = "regulator-fixed";
+			regulator-name = "usbotg_vbus";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			gpio = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+			off-on-delay = <20000>;
+			enable-active-high;
+		};
+	};
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_test>;
+
+	imx8mmea-ucom-ptp {
+		pinctrl_test: tstgrp {
+			fsl,pins = <
+				/* From: was not in original dts */
+				MX8MM_IOMUXC_SD1_DATA6_GPIO2_IO8	0xC6
+
+				/* From: pinctrl_usdhc1: usdhc1grp */
+				MX8MM_IOMUXC_SD1_CLK_GPIO2_IO0		0xC6
+				MX8MM_IOMUXC_SD1_CMD_GPIO2_IO1		0xC6
+				/*MX8MM_IOMUXC_SD1_DATA0_GPIO2_IO2	0xC6 TODO: verify*/
+				MX8MM_IOMUXC_SD1_DATA1_GPIO2_IO3	0xC6
+				MX8MM_IOMUXC_SD1_DATA2_GPIO2_IO4	0xC6
+				MX8MM_IOMUXC_SD1_DATA3_GPIO2_IO5	0xC6
+
+				/* From: pinctrl_usdhc1_gpio: usdhc1grpgpio */
+				MX8MM_IOMUXC_SD1_DATA7_GPIO2_IO9	0x1c4
+
+				/* From: pinctrl_usdhc2_gpio: usdhc2grpgpio */
+				MX8MM_IOMUXC_SD2_RESET_B_GPIO2_IO19	0xC6
+				MX8MM_IOMUXC_SD2_CD_B_GPIO2_IO12	0xC6
+
+				/* From: pinctrl_usdhc2: usdhc2grp */
+				MX8MM_IOMUXC_SD2_CLK_GPIO2_IO13		0xC6
+				MX8MM_IOMUXC_SD2_CMD_GPIO2_IO14		0xC6
+				MX8MM_IOMUXC_SD2_DATA0_GPIO2_IO15	0xC6
+				MX8MM_IOMUXC_SD2_DATA1_GPIO2_IO16	0xC6
+				MX8MM_IOMUXC_SD2_DATA2_GPIO2_IO17	0xC6
+				MX8MM_IOMUXC_SD2_DATA3_GPIO2_IO18	0xC6
+				MX8MM_IOMUXC_GPIO1_IO04_GPIO1_IO4	0xC6
+
+				/* From: pinctrl_sai2: sai2grp */
+				MX8MM_IOMUXC_SAI2_MCLK_GPIO4_IO27	0xd6
+				MX8MM_IOMUXC_SAI2_TXD0_GPIO4_IO26	0xd6
+				MX8MM_IOMUXC_SAI2_TXC_GPIO4_IO25	0xd6
+				MX8MM_IOMUXC_SAI2_RXD0_GPIO4_IO23	0xd6
+				MX8MM_IOMUXC_SAI2_TXFS_GPIO4_IO24	0xd6
+
+				/* From: pinctrl_flexspi0: flexspi0grp */
+				MX8MM_IOMUXC_NAND_ALE_GPIO3_IO0		0xC6
+				MX8MM_IOMUXC_NAND_CE0_B_GPIO3_IO1	0xC6
+				MX8MM_IOMUXC_NAND_DATA00_GPIO3_IO6	0xC6
+				MX8MM_IOMUXC_NAND_DATA01_GPIO3_IO7	0xC6
+				MX8MM_IOMUXC_NAND_DATA02_GPIO3_IO8	0xC6
+				MX8MM_IOMUXC_NAND_DATA03_GPIO3_IO9	0xC6
+
+				/* From: pinctrl_pwm1: pwm1grp */
+				MX8MM_IOMUXC_GPIO1_IO01_GPIO1_IO1	0xC6
+
+				/* From: pinctrl_i2c3: i2c3grp */
+				MX8MM_IOMUXC_I2C3_SCL_GPIO5_IO18	0xC6
+				MX8MM_IOMUXC_I2C3_SDA_GPIO5_IO19	0xC6
+
+				/* From: pinctrl_uart1: uart1grp */
+				MX8MM_IOMUXC_UART1_RXD_GPIO5_IO22	0x140
+				MX8MM_IOMUXC_UART1_TXD_GPIO5_IO23	0x140
+				MX8MM_IOMUXC_UART3_RXD_GPIO5_IO26	0x140
+				MX8MM_IOMUXC_UART3_TXD_GPIO5_IO27	0x140
+
+				/* From: pinctrl_exp_conn: expconngrp */
+										/* GPIO_H Not Connected */
+										/* GPIO_J Not Connected */
+				/*MX8MM_IOMUXC_GPIO1_IO00_GPIO1_IO0	0xC6       GPIO_K ADV7535 INT (on adapter board) */
+				/*MX8MM_IOMUXC_GPIO1_IO08_GPIO1_IO8	0xC6	   GPIO_P MIPI_DSI_EN */
+										/* GPIO_Q Not Connected */
+										/* GPIO_R Not Connected */
+										/* GPIO_S Not Connected */
+										/* GPIO_T Not Connected */
+										/* GPIO_U Not Connected */
+										/* GPIO_V Not Connected */
+										/* GPIO_W Not Connected */
+										/* GPIO_X Not Connected */
+										/* GPIO_Y Not Connected */
+										/* GPIO_Z Not Connected */
+										/* GPIO_AA Not Connected */
+										/* GPIO_AB Not Connected */
+										/* GPIO_AC Not Connected */
+										/* GPIO_AD Not Connected */
+										/* GPIO_AE Not Connected */
+										/* GPIO_AF Not Connected */
+										/* GPIO_AG Not Connected */
+										/* GPIO_AH Not Connected */
+
+				MX8MM_IOMUXC_SD1_RESET_B_GPIO2_IO10	0xC6
+				MX8MM_IOMUXC_SD1_DATA5_GPIO2_IO7	0xC6
+				MX8MM_IOMUXC_SD1_DATA4_GPIO2_IO6	0xC6
+
+				/*MX8MM_IOMUXC_SD2_WP_GPIO2_IO20	0xC6	   GPIO_AP MIDI DSI (on adapter board) */
+										/* GPIO_AQ Not Connected */
+										/* GPIO_AR Not Connected */
+										/* GPIO_AS Not Connected */
+										/* GPIO_AT Not Connected */
+										/* GPIO_AU Not Connected */
+										/* GPIO_AV Not Connected */
+			>;
+
+		};
+
+		pinctrl_mipi_dsi_en: mipi_dsi_en {
+			fsl,pins = <
+				MX8MM_IOMUXC_GPIO1_IO08_GPIO1_IO8		0x16
+			>;
+		};
+
+		pinctrl_uart2: uart2grp {
+			fsl,pins = <
+				MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140
+				MX8MM_IOMUXC_UART2_TXD_UART2_DCE_TX	0x140
+			>;
+		};
+
+		pinctrl_wdog: wdoggrp {
+			fsl,pins = <
+				MX8MM_IOMUXC_GPIO1_IO02_WDOG1_WDOG_B		0xc6
+			>;
+		};
+
+		pinctrl_usbotg1: usbotg1grp {
+			fsl,pins = <
+				MX8MM_IOMUXC_GPIO1_IO12_GPIO1_IO12		0x1d6
+				MX8MM_IOMUXC_GPIO1_IO13_USB1_OTG_OC		0x1d6
+			>;
+		};
+
+		pinctrl_usbotg2: usbotg2grp {
+			fsl,pins = <
+				/*MX8MM_IOMUXC_GPIO1_IO14_GPIO1_IO14		0x1d6*/
+				MX8MM_IOMUXC_GPIO1_IO15_GPIO1_IO15		0x1d6
+			>;
+		};
+
+	};
+};
+
+&flexspi {
+	status = "disabled";
+};
+
+&i2c1 {
+	clock-frequency = <400000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c1>;
+	status = "okay";
+
+        gpio_buff1: pca9698@20 {
+                compatible = "nxp,pca9698";
+                reg = <0x20>;
+                gpio-controller;
+                #gpio-cells = <2>;
+        };
+        gpio_buff2: pca9698@21 {
+                compatible = "nxp,pca9698";
+                reg = <0x21>;
+                gpio-controller;
+                #gpio-cells = <2>;
+        };
+        gpio_buff3: pca9698@22 {
+                compatible = "nxp,pca9698";
+                reg = <0x22>;
+                gpio-controller;
+                #gpio-cells = <2>;
+        };
+        gpio_buff4: pca9698@23 {
+                compatible = "nxp,pca9698";
+                reg = <0x23>;
+                gpio-controller;
+                #gpio-cells = <2>;
+        };
+        gpio_buff5: pca9698@24 {
+                compatible = "nxp,pca9698";
+                reg = <0x24>;
+                gpio-controller;
+                #gpio-cells = <2>;
+        };
+};
+
+&i2c2 {
+	clock-frequency = <400000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c2>;
+	status = "okay";
+
+	adv_bridge: adv7535@3d {
+		compatible = "adi,adv7533";
+		reg = <0x3d>;
+		adi,dsi-lanes = <4>;
+		status = "okay";
+
+		port {
+			adv7535_from_dsim: endpoint {
+				remote-endpoint = <&dsim_to_adv7535>;
+			};
+		};
+	};
+};
+
+&i2c3 {
+	status = "disabled";
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&mipi_dsi {
+	status = "okay";
+
+	port@1 {
+		dsim_to_adv7535: endpoint {
+			remote-endpoint = <&adv7535_from_dsim>;
+		};
+	};
+};
+
+&pcie0{
+	status = "disabled";
+};
+
+&uart1 { /* Bluetooth UART */
+	status = "disabled";
+};
+
+&uart2 { /* Console */
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart2>;
+	status = "okay";
+};
+
+&uart3 { /* Disabled as pins are used by Bluetooth for RTS/CTS */
+	status = "disabled";
+};
+
+&usbotg1 {
+	dr_mode = "otg";
+	picophy,pre-emp-curr-control = <3>;
+	picophy,dc-vol-level-adjust = <7>;
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usbotg1>;
+	vbus-supply = <&reg_usbotg1_vbus>;
+};
+
+&usbotg2 {
+	dr_mode = "host";
+	picophy,pre-emp-curr-control = <3>;
+	picophy,dc-vol-level-adjust = <7>;
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usbotg2>;
+	vbus-supply = <&reg_usbotg2_vbus>;
+};
+
+/* M.2 connector */
+&usdhc1 {
+	status = "disabled";
+};
+
+/* uSD connector on carrier board */
+&usdhc2 {
+	status = "disabled";
+};
+
+&wdog1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_wdog>;
+	fsl,ext-reset-output;
+	status = "okay";
+};
+
+&pwm1 {
+	status = "disabled";
+};
+

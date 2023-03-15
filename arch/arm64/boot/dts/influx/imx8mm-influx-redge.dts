@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Influx Technology LTD
+ * Copyright 2023 Influx Technology LDT
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +17,8 @@
 #include "imx8mm-influx.dtsi"
 
 / {
-	model = "Influx Technology LTD Redge device";
-	compatible = "fsl,imx8mmea-influx", "fsl,imx8mm";
+	model = "Influx Technology LDT";
+	compatible = "fsl,imx8mm-influx", "fsl,imx8mm";
 
 	chosen {
 		bootargs = "console=ttymxc3,115200 earlycon=ec_imx6q,0x30a60000,115200"; 
@@ -102,13 +102,44 @@
 			clocks = <&clk IMX8MM_CLK_SAI2_ROOT>;
 			status = "disabled";
 		};
-	};   
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_keys>;
+	};
+    
 };
 
 &iomuxc {
 	pinctrl-names = "default";
 
-	imx8mm-influx-device {
+	imx8mmea-ucom-kit {
+
+		pinctrl_gpio_keys: gpio_keysgrp {
+		    fsl,pins = <
+	    		MX8MM_IOMUXC_UART2_TXD_GPIO5_IO25	0x140	//JB07
+//			    MX8MM_IOMUXC_SD1_DATA6_GPIO2_IO8	0x1C6	// JC19 - BT wakeup
+		    >;
+		};
+
+// pri nano tova e razresheno
+/*		pinctrl_mipi_dsi_en: mipi_dsi_en {
+			fsl,pins = <
+				MX8MM_IOMUXC_GPIO1_IO08_GPIO1_IO8		0x16
+			>;
+		}; 
+*/
+
+/*
+		pinctrl_pcie0: pcie0grp {
+			fsl,pins = <
+//				MX8MM_IOMUXC_I2C4_SCL_PCIE1_CLKREQ_B	0x61 // open drain, pull up 
+			>;
+		};
+*/
+
 		pinctrl_sai2: sai2grp {
 			fsl,pins = <
 				MX8MM_IOMUXC_SAI2_MCLK_SAI2_MCLK	0xd6
@@ -121,8 +152,8 @@
 
 		pinctrl_uart1: uart1grp {
 			fsl,pins = <
-				MX8MM_IOMUXC_UART1_RXD_UART1_DCE_RX	0x140		// JB01
-				MX8MM_IOMUXC_UART1_TXD_UART1_DCE_TX	0x140		// JB03
+				MX8MM_IOMUXC_UART1_RXD_UART1_DCE_RX	0x140	// JB01
+				MX8MM_IOMUXC_UART1_TXD_UART1_DCE_TX	0x140	// JB03
 				MX8MM_IOMUXC_UART3_RXD_UART1_DCE_CTS_B	0x140	// JB09
 				MX8MM_IOMUXC_UART3_TXD_UART1_DCE_RTS_B	0x140	// JB11
 			>;
@@ -130,14 +161,14 @@
 
 		pinctrl_uart2: uart2grp {
 			fsl,pins = <
-				MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140		//JB05
-				MX8MM_IOMUXC_UART2_TXD_UART2_DCE_TX	0x140		//JB07
+				MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140	//JB05
+//				MX8MM_IOMUXC_UART2_TXD_UART2_DCE_TX	0x140	//JB07
 			>;
 		};
 
 		pinctrl_uart3: uart3grp {	
 			fsl,pins = <
-				MX8MM_IOMUXC_ECSPI1_SCLK_UART3_DCE_RX 0x140		// JB28
+				MX8MM_IOMUXC_ECSPI1_SCLK_UART3_DCE_RX 0x140	// JB28
 				MX8MM_IOMUXC_ECSPI1_MOSI_UART3_DCE_TX 0x140 	// JB30
 				MX8MM_IOMUXC_ECSPI1_MISO_UART3_DCE_CTS_B 0x140 	// JB32
 				MX8MM_IOMUXC_ECSPI1_SS0_UART3_DCE_RTS_B 0x140	// JB34
@@ -146,8 +177,8 @@
 	
 		pinctrl_uart4: uart4grp {	
 			fsl,pins = <
-				MX8MM_IOMUXC_UART4_RXD_UART4_DCE_RX 0x49		// JB13
-				MX8MM_IOMUXC_UART4_TXD_UART4_DCE_TX 0x49		// JB15
+				MX8MM_IOMUXC_UART4_RXD_UART4_DCE_RX 0x49	// JB13
+				MX8MM_IOMUXC_UART4_TXD_UART4_DCE_TX 0x49	// JB15
 		    >;
 		};
 
@@ -390,10 +421,10 @@
 	status = "okay";
 };
 
-
+/*
 &pcie0{
 	pinctrl-names = "default";
-//	pinctrl-0 = <&pinctrl_pcie0>;
+	pinctrl-0 = <&pinctrl_pcie0>;
 	reset-gpio = <&gpio_buff 7 GPIO_ACTIVE_LOW>;   // PCIE_PERST_L 
 	disable-gpio = <&gpio_buff 1 GPIO_ACTIVE_LOW>; // WL REG ON 
 	clocks = <&clk IMX8MM_CLK_PCIE1_ROOT>,
@@ -404,7 +435,7 @@
 	ext_osc = <1>;
 	status = "disabled";
 };
-
+*/
 
 &uart1 { 
 	pinctrl-names = "default";
@@ -426,21 +457,21 @@
 
 &uart3 { 
 	pinctrl-names = "default";
-    pinctrl-0 = <&pinctrl_uart3>;
-    status = "okay";
+        pinctrl-0 = <&pinctrl_uart3>;
+        status = "okay";
 
-    assigned-clocks = <&clk IMX8MM_CLK_UART1>;
+        assigned-clocks = <&clk IMX8MM_CLK_UART1>;
 	assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_80M>;
-    fsl,uart-has-rtscts;
+        fsl,uart-has-rtscts;
 };
 
 &uart4 {
-    pinctrl-names = "default";
+        pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart4>;
-    status = "okay";
+        status = "okay";
 
-    assigned-clocks = <&clk IMX8MM_CLK_UART4>;
-    assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_80M>;
+        assigned-clocks = <&clk IMX8MM_CLK_UART4>;
+        assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_80M>;
 };
 
 &usbotg1 {
@@ -461,6 +492,7 @@
 	status = "okay";
 };
 
+/* M.2 connector */
 &usdhc1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -483,6 +515,7 @@
 	};
 };
 
+/* uSD connector on carrier board */
 &usdhc2 {
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
 	pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_usdhc2_gpio>;

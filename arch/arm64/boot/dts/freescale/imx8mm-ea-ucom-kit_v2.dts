@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Embedded Artists AB
+ * Copyright 2023 Influx Technology LDT
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,12 +17,12 @@
 #include "imx8mm-ea-ucom.dtsi"
 
 / {
-	model = "Embedded Artists i.MX8MM uCOM Kit";
-	compatible = "fsl,imx8mmea-ucom", "fsl,imx8mm";
+	model = "Influx Technology LDT";
+	compatible = "fsl,imx8mm-influx", "fsl,imx8mm";
 
 	chosen {
-		bootargs = "console=ttymxc1,115200 earlycon=ec_imx6q,0x30890000,115200";
-		stdout-path = &uart2;
+		bootargs = "console=ttymxc3,115200 earlycon=ec_imx6q,0x30a60000,115200"; 
+		stdout-path = &uart4;
 	};
 
 	modem_reset: modem-reset {
@@ -88,19 +88,28 @@
 		simple-audio-card,routing =
 			"Left Line Out Jack", "LOUT",
 			"Right Line Out Jack", "ROUT";
+		status = "disabled";
 
 		cpudai: simple-audio-card,cpu {
 			sound-dai = <&sai2>;
 			dai-tdm-slot-num = <2>;
 			dai-tdm-slot-width = <32>;
+			status = "disabled";
 		};
 
 		simple-audio-card,codec {
 			sound-dai = <&wm8731>;
 			clocks = <&clk IMX8MM_CLK_SAI2_ROOT>;
+			status = "disabled";
 		};
 	};
 
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_keys>;
+	};
+    
 };
 
 &iomuxc {
@@ -108,16 +117,11 @@
 
 	imx8mmea-ucom-kit {
 
-		pinctrl_mipi_dsi_en: mipi_dsi_en {
-			fsl,pins = <
-				MX8MM_IOMUXC_GPIO1_IO08_GPIO1_IO8		0x16
-			>;
-		};
-
-		pinctrl_pcie0: pcie0grp {
-			fsl,pins = <
-				MX8MM_IOMUXC_I2C4_SCL_PCIE1_CLKREQ_B	0x61 /* open drain, pull up */
-			>;
+		pinctrl_gpio_keys: gpio_keysgrp {
+		    fsl,pins = <
+	    		MX8MM_IOMUXC_UART2_TXD_GPIO5_IO25		0x140	//JB07
+//			    MX8MM_IOMUXC_SD1_DATA6_GPIO2_IO8		0x1C6	// JC19 - BT wakeup
+		    >;
 		};
 
 		pinctrl_sai2: sai2grp {
@@ -132,18 +136,34 @@
 
 		pinctrl_uart1: uart1grp {
 			fsl,pins = <
-				MX8MM_IOMUXC_UART1_RXD_UART1_DCE_RX	0x140
-				MX8MM_IOMUXC_UART1_TXD_UART1_DCE_TX	0x140
-				MX8MM_IOMUXC_UART3_RXD_UART1_DCE_CTS_B	0x140
-				MX8MM_IOMUXC_UART3_TXD_UART1_DCE_RTS_B	0x140
+				MX8MM_IOMUXC_UART1_RXD_UART1_DCE_RX	0x140	// JB01
+				MX8MM_IOMUXC_UART1_TXD_UART1_DCE_TX	0x140	// JB03
+				MX8MM_IOMUXC_UART3_RXD_UART1_DCE_CTS_B	0x140	// JB09
+				MX8MM_IOMUXC_UART3_TXD_UART1_DCE_RTS_B	0x140	// JB11
 			>;
 		};
 
 		pinctrl_uart2: uart2grp {
 			fsl,pins = <
-				MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140
-				MX8MM_IOMUXC_UART2_TXD_UART2_DCE_TX	0x140
+				MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140	//JB05
+//				MX8MM_IOMUXC_UART2_TXD_UART2_DCE_TX	0x140	//JB07
 			>;
+		};
+
+		pinctrl_uart3: uart3grp {	// enable UART3
+			fsl,pins = <
+				MX8MM_IOMUXC_ECSPI1_SCLK_UART3_DCE_RX	0x140	// JB28
+				MX8MM_IOMUXC_ECSPI1_MOSI_UART3_DCE_TX	0x140 	// JB30
+				MX8MM_IOMUXC_ECSPI1_MISO_UART3_DCE_CTS_B 0x140 	// JB32
+				MX8MM_IOMUXC_ECSPI1_SS0_UART3_DCE_RTS_B	0x140	// JB34
+		        >;
+		};
+	
+		pinctrl_uart4: uart4grp {	// enable UART4
+		        fsl,pins = <
+			        MX8MM_IOMUXC_UART4_RXD_UART4_DCE_RX 	0x49	// JB13
+			        MX8MM_IOMUXC_UART4_TXD_UART4_DCE_TX 	0x49	// JB15
+		        >;
 		};
 
 		pinctrl_usdhc1_gpio: usdhc1grpgpio {
@@ -231,20 +251,20 @@
 
 		pinctrl_wdog: wdoggrp {
 			fsl,pins = <
-				MX8MM_IOMUXC_GPIO1_IO02_WDOG1_WDOG_B		0xc6
+				MX8MM_IOMUXC_GPIO1_IO02_WDOG1_WDOG_B	0xc6
 			>;
 		};
 
 		pinctrl_pwm1: pwm1grp {
 			fsl,pins = <
-				MX8MM_IOMUXC_GPIO1_IO01_PWM1_OUT		0x06
+				MX8MM_IOMUXC_GPIO1_IO01_PWM1_OUT	0x06
 			>;
 		};
 
 		pinctrl_usbotg1: usbotg1grp {
 			fsl,pins = <
-				MX8MM_IOMUXC_GPIO1_IO12_GPIO1_IO12		0x1d6
-				MX8MM_IOMUXC_GPIO1_IO13_USB1_OTG_OC		0x1d6
+				MX8MM_IOMUXC_GPIO1_IO12_GPIO1_IO12	0x1d6
+				MX8MM_IOMUXC_GPIO1_IO13_USB1_OTG_OC	0x1d6
 			>;
 		};
 
@@ -366,7 +386,7 @@
 };
 
 &mipi_dsi {
-	status = "okay";
+	status = "disable";	// pri nano e "okay"
 
 	port@1 {
 		dsim_to_adv7535: endpoint {
@@ -386,11 +406,12 @@
 	status = "okay";
 };
 
+/*
 &pcie0{
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pcie0>;
-	reset-gpio = <&gpio_buff 7 GPIO_ACTIVE_LOW>;   /* PCIE_PERST_L */
-	disable-gpio = <&gpio_buff 1 GPIO_ACTIVE_LOW>; /* WL REG ON */	
+	reset-gpio = <&gpio_buff 7 GPIO_ACTIVE_LOW>;   // PCIE_PERST_L 
+	disable-gpio = <&gpio_buff 1 GPIO_ACTIVE_LOW>; // WL REG ON 
 	clocks = <&clk IMX8MM_CLK_PCIE1_ROOT>,
 		 <&clk IMX8MM_CLK_PCIE1_AUX>,
 		 <&clk IMX8MM_CLK_PCIE1_PHY>,
@@ -399,6 +420,7 @@
 	ext_osc = <1>;
 	status = "disabled";
 };
+*/
 
 &uart1 { /* Bluetooth UART */
 	pinctrl-names = "default";
@@ -419,7 +441,22 @@
 };
 
 &uart3 { /* Disabled as pins are used by Bluetooth for RTS/CTS */
-	status = "disabled";
+	pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_uart3>;
+        status = "okay";
+
+        assigned-clocks = <&clk IMX8MM_CLK_UART1>;
+	assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_80M>;
+        fsl,uart-has-rtscts;
+};
+
+&uart4 {
+        pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart4>;
+        status = "okay";
+
+        assigned-clocks = <&clk IMX8MM_CLK_UART4>;
+        assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_80M>;
 };
 
 &usbotg1 {

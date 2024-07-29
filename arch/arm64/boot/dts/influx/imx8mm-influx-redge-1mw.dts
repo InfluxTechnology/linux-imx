@@ -27,7 +27,7 @@
 		MX8MM_IOMUXC_SD1_DATA7_GPIO2_IO9	0x1c4
 		MX8MM_IOMUXC_SD1_RESET_B_GPIO2_IO10	0x1c4 /* WL_REG_ON */
 		MX8MM_IOMUXC_SD1_DATA4_GPIO2_IO6        0x1c4 /* BT_REG_ON */
-		MX8MM_IOMUXC_SD1_DATA5_GPIO2_IO7	0xC6  /* BT_DEV_WAKE */
+//		MX8MM_IOMUXC_SD1_DATA5_GPIO2_IO7	0xC6  /* BT_DEV_WAKE */
 	>;
 };
 
@@ -80,11 +80,3 @@
 	>;
 };
 
-&gpio2 {
-	bt_dev_wake_gpio { /* TODO: Could likely remove this but it needs to be verified */
-		gpio-hog;
-		gpios = <7 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "BT_DEV_WAKE";
-	};
-};

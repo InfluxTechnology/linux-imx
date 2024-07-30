@@ -19,8 +19,8 @@
 #include <dt-bindings/leds/leds-pca9532.h>
 
 / {
-		model = "Influx Technology i.MX8MM Rexgen Smart";
-        compatible = "fsl,imx8mm-rexgen-smart", "fsl,imx8mm";
+	model = "Influx Technology i.MX8MM Rexgen Smart";
+    compatible = "fsl,imx8mm-influx-rex-smart", "fsl,imx8mm";
 
 	chosen {
 		bootargs = "console=ttymxc1,115200 earlycon=ec_imx6q,0x30890000,115200";
@@ -92,7 +92,7 @@
 &iomuxc {
 	pinctrl-names = "default";
 
-	imx8mmea-ucom-kit {
+	imx8mm-influx-rex-smart {
 
 		pinctrl_mipi_dsi_en: mipi_dsi_en {
 			fsl,pins = <

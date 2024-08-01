@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Embedded Artists AB
+ * Copyright 2023 Influx Technology LDT
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +17,8 @@
 #include "imx8mm-influx.dtsi"
 
 / {
-	model = "Embedded Artists i.MX8MM uCOM Kit";
-	compatible = "fsl,imx8mmea-ucom", "fsl,imx8mm";
+	model = "Influx Technology LDT";
+	compatible = "fsl,imx8mm-influx", "fsl,imx8mm";
 
 	chosen {
 		bootargs = "console=ttymxc3,115200 earlycon=ec_imx6q,0x30a60000,115200"; 

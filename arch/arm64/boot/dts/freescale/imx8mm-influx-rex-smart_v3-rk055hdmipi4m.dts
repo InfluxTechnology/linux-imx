@@ -75,7 +75,7 @@
 
 &iomuxc {
 
-        imx8mmea-kit {
+        imx8mm-rexgen-smart {
 
                 pinctrl_mipi_dsi_touch: mipi_dsi_touch {
                         fsl,pins = <

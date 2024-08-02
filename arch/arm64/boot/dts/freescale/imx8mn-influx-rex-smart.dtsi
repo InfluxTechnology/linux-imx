@@ -17,12 +17,12 @@
 #include "imx8mn.dtsi"
 
 / {
-	model = "Influx Technology i.MX8MM Rexgen Smart";
-    compatible = "fsl,imx8mm-rexgen-smart", "fsl,imx8mm";
+	model = "Influx Technology i.MX8MN Rexgen Smart";
+    compatible = "fsl,imx8mn-rexgen-smart", "fsl,imx8mn";
 
 	memory@40000000 {
 		device_type = "memory";
-		reg = <0x0 0x40000000 0 0x80000000>;
+		reg = <0x0 0x40000000 0 0x40000000>;
 	};
 };
 
@@ -30,7 +30,7 @@
 &iomuxc {
 	pinctrl-names = "default";
 
-	imx8mnea-ucom {
+	imx8mn-rexgen-smart {
 
 		pinctrl_fec1: fec1grp {
 			fsl,pins = <

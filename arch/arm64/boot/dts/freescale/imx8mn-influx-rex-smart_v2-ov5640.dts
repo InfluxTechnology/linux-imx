@@ -95,7 +95,7 @@
 
 &iomuxc {
 
-        imx8mnea-kit {
+        imx8mn-rexgen-smart {
 
                 pinctrl_ov5640: ov5640grp {
                         fsl,pins = <

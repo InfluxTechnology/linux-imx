@@ -122,18 +122,23 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_leds>;
 		
-		// these pins must be checked how they used of Quectel LTE
+		// these pins are used by Quectel LTE
 		vcc_pin {
-			label = "ublox_VCC";
+			label = "lte_VCC";
 			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
 		};
 		pwr_on_pin {
-			label = "ublox_PWR_ON";
+			label = "lte_PWR_ON";
 			gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
 		};
 		reset_pin {
-			label = "ublox_RESET";
+			label = "lte_RESET";
 			gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+		};
+
+		usb_ena_pin {
+			label = "lte_USB_ENA";
+			gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
 		};
 
 		// under construction. functions, indicated of these pins, not defined yet. 
@@ -149,6 +154,12 @@
 			label = "JB12";
 			gpios = <&gpio1 8 GPIO_ACTIVE_LOW>;
 		};	    
+
+		// set UART2_TX to GPIO and it's value to 1
+		jb07 { 
+			label = "JB07";
+			gpios = <&gpio5 25 GPIO_ACTIVE_LOW>;
+		};
 	};
 };
 
@@ -162,9 +173,12 @@
 				MX8MM_IOMUXC_SAI1_MCLK_GPIO4_IO20	0x140	//JA33
 				MX8MM_IOMUXC_SAI1_TXFS_GPIO4_IO10	0x140	//JA35
 				MX8MM_IOMUXC_GPIO1_IO08_GPIO1_IO8	0x140	//JB12
-//				MX8MM_IOMUXC_GPIO1_IO00_GPIO1_IO0	0x140	//JB02
-//				MX8MM_IOMUXC_GPIO1_IO06_GPIO1_IO6	0x140	//JB08
-//				MX8MM_IOMUXC_GPIO1_IO09_GPIO1_IO9	0x140	//JB14
+				MX8MM_IOMUXC_GPIO1_IO00_GPIO1_IO0	0x140	//JB02
+				MX8MM_IOMUXC_GPIO1_IO06_GPIO1_IO6	0x140	//JB08
+				MX8MM_IOMUXC_GPIO1_IO09_GPIO1_IO9	0x140	//JB14
+
+		  		MX8MM_IOMUXC_UART2_TXD_GPIO5_IO25	0x140	//JB07
+		  		MX8MM_IOMUXC_GPIO1_IO15_GPIO1_IO15	0x140	//JB59
 			>;
 		};
 

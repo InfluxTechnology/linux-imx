@@ -358,7 +358,7 @@
 	};
 
 	adv_bridge: adv7535@3d {
-		compatible = "adi,adv7533";
+		compatible = "adi,adv7535";
 		reg = <0x3d>;
 		adi,dsi-lanes = <4>;
 		status = "okay";
@@ -393,6 +393,7 @@
 	assigned-clocks = <&clk IMX8MM_CLK_SAI2>;
 	assigned-clock-parents = <&clk IMX8MM_AUDIO_PLL2_OUT>;
 	assigned-clock-rates = <11289600>;
+	fsl,sai-mclk-direction-output;
 	status = "okay";
 };
 

@@ -52,7 +52,6 @@
 *
 *****************************************************************************/
 
-
 #ifndef __gc_hal_base_h_
 #define __gc_hal_base_h_
 
@@ -284,7 +283,7 @@ typedef struct _gcsSystemInfo {
     gcvFALSE, /* exiting            */               \
     gcvFALSE, /* Special flag for NP2 texture. */    \
     gcvFALSE, /* device open.       */               \
-    gcvNULL, /* destructor         */               \
+    {gcvNULL}, /* destructor         */               \
     gcvNULL, /* accessLock         */               \
     gcvNULL, /* GL FE compiler lock*/               \
     gcvNULL, /* CL FE compiler lock*/               \
@@ -920,6 +919,7 @@ gcoHAL_CommandBufferAutoCommit(gcoHAL Hal, gctBOOL AutoCommit);
 
 gceSTATUS
 gcoHAL_CommandBufferAutoSync(gcoHAL Hal, gctBOOL AutoSync);
+
 
 #if gcdENABLE_MULTI_DEVICE_MANAGEMENT
 gceSTATUS
@@ -2377,6 +2377,7 @@ gcoHEAP_ProfileStart(IN gcoHEAP Heap);
 gceSTATUS
 gcoHEAP_ProfileEnd(IN gcoHEAP Heap, IN gctCONST_STRING Title);
 #endif
+
 
 /******************************************************************************
  ******************************* Debugging Macros *****************************

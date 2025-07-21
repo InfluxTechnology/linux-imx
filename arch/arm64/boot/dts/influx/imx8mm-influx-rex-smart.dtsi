@@ -277,7 +277,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_fec1>;
 	phy-mode = "rgmii-id";
-	phy-handle = <&ethphy0>;
 	fsl,magic-packet;
 	status = "okay";
 
